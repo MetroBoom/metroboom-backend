@@ -31,18 +31,12 @@ metroboomApp.use(function(req, res, next) {
 
 gSocket.on('connection', function (socket) {
     
-    socket.on('createRoom', function (username, callback) {
-        if (typeof username !== "string" || 
-            username.length === 0) {
-            cbHandler(new Error("Username of the host is required"), 
-                      callback);
-            return;
-        }
+    socket.on('createRoom', function (callback) {
         
-        var roomName = roomManager.createRoom(username);
+        var roomName = roomManager.createRoom("traplord");
         socket.join(roomName);
         
-        sessionManager(gSocket, socket, roomName, username);
+        sessionManager(gSocket, socket, roomName, "traplord");
         cbHandler(roomName, callback);
     });
     
