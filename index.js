@@ -9,8 +9,25 @@ var express = require('express'),
     cbHandler = require('./cbHandler'),
     
     metroboomApp = express(), 
-    gSocket = socketIo(metroboomApp.listen(process.env.PORT_NUMBER));
-    
+    gSocket = socketIo.listen(metroboomApp.listen(process.env.PORT_NUMBER));
+
+/**
+* CORS header
+*/
+metroboomApp.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods',
+                  'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers',
+                  'X-Requested-With, content-type, authorization, accept, origin');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+    if (req.method === "OPTIONS") {
+        res.send(200);
+    } else {
+        next();	
+    }
+});
 
 gSocket.on('connection', function (socket) {
     
