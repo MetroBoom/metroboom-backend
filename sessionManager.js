@@ -76,6 +76,12 @@ function sessionManager(gSocket, socket, roomName, username) {
         cbHandler(musicList, callback);
         gSocket.in(roomName).emit('musicList', musicList);
     });
+    
+    // Client requests music listing
+    socket.on('musicListing', function (callback) {
+        var musicList = roomManager.getRoomMusicList(roomName);
+        cbHandler(musicList, callback);
+    });
 }
 
 module.exports = exports = sessionManager;
