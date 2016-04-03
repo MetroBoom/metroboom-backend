@@ -10,13 +10,17 @@ var roomManager = require('./roomManager'),
 */
 function sessionManager(gSocket, socket, roomName, username) {
     
-    var userList;
+    var userList, 
+        musicList;
     try {
         userList = roomManager.getRoomMembers(roomName);
+        musicList = roomManager.getRoomMusicList(roomName);
     } catch (e) {
         userList = e;
+        musicList = e;
     }
     gSocket.in(roomName).emit('userList', userList);
+    gSocket.in(roomName).emit('musicList', musicList);
     
     // Client adds new music to the queue
     socket.on('addMusic', function (data, callback) {
