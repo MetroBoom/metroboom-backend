@@ -32,7 +32,11 @@ gSocket.on('connection', function (socket) {
     socket.on('joinRoom', function (data, callback) {
         if (typeof data !== "object" || 
             !lodash.has(data, "username") || 
-            !lodash.has(data, "roomName")) {
+            !lodash.has(data, "roomName") || 
+            typeof data.username !== "string" ||
+            data.username.length === 0 || 
+            typeof data.roomName !== "string" || 
+            data.roomName.length === 0){
             cbHandler(new Error("Username of the joiner and " + 
                                 "RoomName is required"), callback);
             return;
